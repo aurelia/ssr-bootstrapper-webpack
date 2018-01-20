@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.build",
+  "compilerOptions": {
+    "outDir": "dist/test",
+    "allowUnreachableCode": true,
+    "allowUnusedLabels": true,
+    "skipLibCheck": true
+  },
+  "exclude": [
+    ".vscode",
+    "dist",
+    "doc",
+    "node_modules"
+  ]
+}

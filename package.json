@@ -1,0 +1,82 @@
+{
+  "name": "aurelia-ssr-bootstrapper-webpack",
+  "version": "0.0.0",
+  "description": "The Aurelia server-side rendering bootstrapper for Webpack",
+  "keywords": [
+    "aurelia",
+    "server",
+    "spa"
+  ],
+  "homepage": "http://aurelia.io",
+  "bugs": {
+    "url": "https://github.com/aurelia/ssr-bootstrapper-webpack/issues"
+  },
+  "license": "MIT",
+  "author": "Rob Eisenberg <rob@bluespire.com> (http://robeisenberg.com/)",
+  "main": "dist/commonjs/aurelia-ssr-bootstrapper-webpack.js",
+  "typings": "dist/commonjs/aurelia-ssr-bootstrapper-webpack.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/aurelia/ssr-bootstrapper-webpack"
+  },
+  "scripts": {
+    "lint": "cross-env tslint --project tsconfig.json",
+    "pretest": "cross-env npm run lint",
+    "test": "cross-env rimraf dist && tsc && karma start --single-run",
+    "test-watch": "concurrently \"cross-env ./node_modules/.bin/tsc --watch\" \"cross-env ./node_modules/.bin/karma start\"",
+    "prebuild:amd": "cross-env rimraf dist/amd",
+    "build:amd": "cross-env tsc --project tsconfig.build.json --outDir dist/amd --module amd",
+    "postbuild:amd": "cross-env copyfiles --up 1 src/**/*.html src/**/*.css dist/amd",
+    "prebuild:commonjs": "cross-env rimraf dist/commonjs",
+    "build:commonjs": "cross-env tsc --project tsconfig.build.json --outDir dist/commonjs --module commonjs",
+    "postbuild:commonjs": "cross-env copyfiles --up 1 src/**/*.html src/**/*.css dist/commonjs",
+    "prebuild:es2015": "cross-env rimraf dist/es2015",
+    "build:es2015": "cross-env tsc --project tsconfig.build.json --outDir dist/es2015 --module es2015 --target es2015",
+    "postbuild:es2015": "cross-env copyfiles --up 1 src/**/*.html src/**/*.css dist/es2015",
+    "prebuild:native-modules": "cross-env rimraf dist/native-modules",
+    "build:native-modules": "cross-env tsc --project tsconfig.build.json --outDir dist/native-modules --module es2015",
+    "postbuild:native-modules": "cross-env copyfiles --up 1 src/**/*.html src/**/*.css dist/native-modules",
+    "prebuild:system": "cross-env rimraf dist/system",
+    "build:system": "cross-env tsc --project tsconfig.build.json --outDir dist/system --module system",
+    "postbuild:system": "cross-env copyfiles --up 1 src/**/*.html src/**/*.css dist/system",
+    "prebuild": "cross-env rimraf dist && rimraf node_modules/@types/!node",
+    "build": "concurrently \"npm run build:amd\" \"npm run build:commonjs\" \"npm run build:es2015\" \"npm run build:native-modules\" \"npm run build:system\"",
+    "predoc": "cross-env rimraf doc/api.json && rimraf dist/doc-temp && tsc --project tsconfig.build.json --outFile dist/doc-temp/aurelia-ssr-bootstrapper-webpack.js && node doc/shape-defs",
+    "doc": "cross-env typedoc --json doc/api.json --excludeExternals --includeDeclarations --mode modules --name aurelia-ssr-bootstrapper-webpack-docs --tsconfig tsconfig.doc.json",
+    "postdoc": "cross-env node doc/shape-doc && rimraf dist/doc-temp",
+    "changelog": "cross-env conventional-changelog -p angular -i doc/CHANGELOG.md -s",
+    "bump-version": "npm --no-git-tag-version version",
+    "precut-release": "cross-env npm run test",
+    "cut-release": "cross-env npm run changelog && npm run build && npm run doc"
+  },
+  "dependencies": {
+    "aurelia-framework": "^1.0.0",
+    "aurelia-pal": "^1.0.0",
+    "aurelia-loader-webpack": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/jasmine": "2.5.47",
+    "@types/node": "8.0.14",
+    "concurrently": "^3.1.0",
+    "conventional-changelog-cli": "^1.2.0",
+    "copyfiles": "^1.0.0",
+    "cross-env": "^3.1.0",
+    "del": "^2.2.1",
+    "eslint": "^3.1.1",
+    "jasmine-core": "^2.4.1",
+    "merge2": "^1.0.2",
+    "object.assign": "^4.0.4",
+    "require-dir": "^0.3.0",
+    "rimraf": "^2.5.4",
+    "run-sequence": "^1.2.2",
+    "through2": "^2.0.1",
+    "tslint": "4.5.1",
+    "typedoc": "^0.5.9",
+    "typescript": "^2.4.2"
+  },
+  "aurelia": {
+    "documentation": {
+      "articles": []
+    }
+  }
+}
