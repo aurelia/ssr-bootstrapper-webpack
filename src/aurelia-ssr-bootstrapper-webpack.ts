@@ -36,7 +36,9 @@ function start(configure: any) {
     // the router hasn't been fully initialized and 
     // generated routes by route-href will be undefined
     pal.DOM.global.window.addEventListener('aurelia-composed', () => {
-      resolve({ aurelia, pal, palNodeJS, stop });
+      setTimeout(() => {
+        resolve({ aurelia, pal, palNodeJS, stop });
+      }, 20);
     });
 
     return configure(aurelia);
