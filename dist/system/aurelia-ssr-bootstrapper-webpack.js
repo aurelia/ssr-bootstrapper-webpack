@@ -21,7 +21,9 @@ System.register(["aurelia-framework", "aurelia-loader-webpack", "aurelia-binding
             // the router hasn't been fully initialized and 
             // generated routes by route-href will be undefined
             pal.DOM.global.window.addEventListener('aurelia-composed', function () {
-                resolve({ aurelia: aurelia, pal: pal, palNodeJS: palNodeJS, stop: stop });
+                setTimeout(function () {
+                    resolve({ aurelia: aurelia, pal: pal, palNodeJS: palNodeJS, stop: stop });
+                }, 20);
             });
             return configure(aurelia);
         });
@@ -58,6 +60,11 @@ System.register(["aurelia-framework", "aurelia-loader-webpack", "aurelia-binding
             // otherwise the setTimeout of the dirty checker
             // prevents nodejs from garbage collecting the app
             aurelia_binding_1.DirtyCheckProperty.prototype.subscribe = function () { };
+            // https://github.com/angular/angular-cli/issues/8412
+            // https://github.com/ag-grid/ag-grid-react/issues/24
+            global.Element = typeof Element === 'undefined' ? function () { } : Element;
+            global.HTMLElement = typeof HTMLElement === 'undefined' ? function () { } : HTMLElement;
+            global.HTMLSelectElement = typeof HTMLSelectElement === 'undefined' ? function () { } : HTMLSelectElement;
             palNodeJS = require('aurelia-pal-nodejs');
             pal = require('aurelia-pal');
             ;
