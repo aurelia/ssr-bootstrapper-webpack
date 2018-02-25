@@ -7,6 +7,12 @@ import {DirtyCheckProperty} from 'aurelia-binding';
 // prevents nodejs from garbage collecting the app
 DirtyCheckProperty.prototype.subscribe = () => {};
 
+// https://github.com/angular/angular-cli/issues/8412
+// https://github.com/ag-grid/ag-grid-react/issues/24
+(<any>global).Element = typeof Element === 'undefined' ? () => {} : Element;
+(<any>global).HTMLElement = typeof HTMLElement === 'undefined' ? () => {} : HTMLElement;
+(<any>global).HTMLSelectElement = typeof HTMLSelectElement === 'undefined' ? () => {} : HTMLSelectElement;
+
 const palNodeJS = require('aurelia-pal-nodejs');
 const pal = require('aurelia-pal');
 
